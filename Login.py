@@ -34,7 +34,6 @@ class Login:
 
         c.execute('SELECT * FROM user')
         rows = c.fetchall()
-        print(len(rows))
         for row in rows:
             if self.username == row[1]:
                 print('Nutzer existiert')

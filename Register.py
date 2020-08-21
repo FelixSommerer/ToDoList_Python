@@ -2,10 +2,14 @@ from tkinter import *
 from tkinter import messagebox as mb
 import sqlite3
 
+from Testdaten import InhaltIn
+
 conn = sqlite3.connect('ToDoList.db')
 c = conn.cursor()
 
-class Register:
+class Register(InhaltIn):
+
+    print(agb)
 
     def __init__(self):
         self.root = Tk()

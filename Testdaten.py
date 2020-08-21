@@ -19,6 +19,7 @@ class InhaltIn:
         self.ueberschrift.bind('<Return>', self.db_eintrag)
         self.root.mainloop()
 
+
     def db_eintrag(self, event):
         self.col_ueberschrift = self.ueberschrift.get()
         c.execute("INSERT INTO ToDoMain(headline, insertDateTime) VALUES (?, datetime('now', 'localtime'))", (self.col_ueberschrift,))
