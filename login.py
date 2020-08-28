@@ -5,25 +5,20 @@ import sqlite3
 import mainPage
 import register
 
-conn = sqlite3.connect('ToDoList.db')
-c = conn.cursor()
-
 
 class Login(tk.Frame):
 
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
 
-        self.label_anz = Label(self, text='ToDo Liste', font=('Calibri', 20))
-        self.username_e = Entry(self)
-        self.loginpassword_e = Entry(self)
-        self.username = Label(self, text='Benutzername: ')
-        self.loginpassword = Label(self, text='Passwort: ')
-        self.go_to_register = Label(self, text='Noch kein Profil? Hier kannst du dich registrieren.', fg='blue',
+        self.label_anz = Label(text='ToDo Liste', font=('Calibri', 20))
+        self.username_e = Entry()
+        self.loginpassword_e = Entry()
+        self.username = Label(text='Benutzername: ')
+        self.loginpassword = Label(text='Passwort: ')
+        self.go_to_register = Label(text='Noch kein Profil? Hier kannst du dich registrieren.', fg='blue',
                                     cursor='hand2')
-        self.button_add_user = Button(self, text='Anmelden', command=self.try_login)
-        self.button2 = tk.Button(self, text="Page One",
-                                 command=lambda: controller.show_frame(register.Register))
+        self.button_add_user = Button(text='Anmelden', command=lambda: self.try_login(master))
 
         self.label_anz.grid(row=0)
         self.username_e.grid(row=1, column=1)
@@ -32,26 +27,27 @@ class Login(tk.Frame):
         self.loginpassword.grid(row=2, column=0, sticky=W)
         self.go_to_register.grid(row=3, column=0)
         self.button_add_user.grid(row=3, column=1)
-        self.button2.grid(row=4, column=1)
 
+        self.button_next = Button(text='Anmelden', command=lambda: master.switch_frame(mainPage.Main))
+        self.button_next.grid(row=4, column=1)
 
-
-
-    def try_login(self, parent, controller):
-
-        self.username = self.username_e.get()
-        self.loginpassword = self.loginpassword_e.get()
+    def try_login(self, master):
+        print('test')
+        conn = sqlite3.connect('ToDoList.db')
+        c = conn.cursor()
+        username = self.username_e.get()
+        loginpassword = self.loginpassword_e.get()
 
         c.execute('SELECT * FROM user')
         rows = c.fetchall()
         for row in rows:
-            if self.username == row[1]:
+            if username == row[1]:
                 print('Nutzer existiert')
-                if self.loginpassword == row[4]:
+                if loginpassword == row[4]:
                     print('Login erfolgreich')
-                    controller.show_frame(mainPage.Main)
+                    master.switch_frame(mainPage.Main)
                 else:
                     print('Falsches Passwort')
 
 
-conn.close()
+        conn.close()
