@@ -5,8 +5,7 @@ import sqlite3
 import login
 import mainPage
 
-conn = sqlite3.connect('ToDoList.db')
-c = conn.cursor()
+
 
 
 class Register(tk.Frame):
@@ -41,6 +40,9 @@ class Register(tk.Frame):
 
 
     def db_eintrag(self):
+        conn = sqlite3.connect('ToDoList.db')
+        c = conn.cursor()
+
         self.col_prename = self.prename_e.get()
         self.col_name = self.name_e.get()
         self.col_username = self.username_e.get()
@@ -60,6 +62,7 @@ class Register(tk.Frame):
                 conn.commit()
             print('Insert erfolgreich')
 
+        conn.close()
 
 
-conn.close()
+

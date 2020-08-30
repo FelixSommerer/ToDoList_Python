@@ -12,11 +12,12 @@ class ManageWindows(tk.Tk):
         self._frame = None
         self.switch_frame(login.Login)
 
+
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
         if self._frame is not None:
             self._frame.destroy()
-            print(1)
+            #print(1)
         self._frame = new_frame
         self._frame.grid()
 
