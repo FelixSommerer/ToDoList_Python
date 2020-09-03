@@ -6,8 +6,6 @@ import login
 import mainPage
 
 
-
-
 class Register(tk.Frame):
 
     def __init__(self, master):
@@ -23,7 +21,7 @@ class Register(tk.Frame):
         username = Label(text='Benutzername: ')
         loginpassword = Label(text='Passwort: ')
         go_to_login = Label(text='Bereits ein Profil? Hier geht\'s zum Login', fg='blue',
-                                 cursor='hand2')
+                            cursor='hand2')
         button_add_user = Button(text='Registrieren', command=self.db_eintrag)
 
         label_anz.grid(row=0)
@@ -37,7 +35,6 @@ class Register(tk.Frame):
         loginpassword.grid(row=4, column=0, sticky=W)
         go_to_login.grid(row=5, column=0)
         button_add_user.grid(row=5, column=1)
-
 
     def db_eintrag(self):
         conn = sqlite3.connect('ToDoList.db')
@@ -63,6 +60,3 @@ class Register(tk.Frame):
             print('Insert erfolgreich')
 
         conn.close()
-
-
-
