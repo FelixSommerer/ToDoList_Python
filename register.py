@@ -6,8 +6,6 @@ import login
 import mainPage
 
 
-
-
 class Register(tk.Frame):
 
     def __init__(self, master):
