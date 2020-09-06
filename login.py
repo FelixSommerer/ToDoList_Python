@@ -9,6 +9,7 @@ import register
 class Login(tk.Frame):
 
     def __init__(self, master):
+
         tk.Frame.__init__(self, master)
 
         self.label_anz = Label(text='ToDo Liste', font=('Calibri', 20))
@@ -19,7 +20,6 @@ class Login(tk.Frame):
         self.go_to_register = Label(text='Noch kein Profil? Hier kannst du dich registrieren.', fg='blue',
                                     cursor='hand2')
         self.button_add_user = Button(text='Anmelden', command=lambda: self.try_login(master))
-
 
         self.label_anz.grid(row=0)
         self.username_e.grid(row=1, column=1)
@@ -47,6 +47,5 @@ class Login(tk.Frame):
                     master.switch_frame(mainPage.Main)
                 else:
                     print('Falsches Passwort')
-
 
         conn.close()
