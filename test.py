@@ -1,31 +1,28 @@
 from tkinter import *
 
+import login
+
 
 class App:
 
     def __init__(self, master):
         self.frame = Frame(master)
-        self.frame.pack()
+        self.frame.grid()
 
         self.button = Button(self.frame, text="QUIT", fg="red", command=self.frame.quit)
-        self.button.pack(side=LEFT)
+        self.button.grid(row=0,column=0)
 
         self.hi_there = Button(self.frame, text="Hello", command=lambda: self.create_frame2(master))
-        self.hi_there.pack(side=LEFT)
+        self.hi_there.grid(row=0,column=1)
 
-    def say_hi(self):
-        print("hi there, everyone!")
 
     def create_frame2(self, master):
-        self.frame.pack_forget()
-        frame2 = Frame(master)
-        frame2.pack()
-        self.hi_there = Button(frame2, text="Hi", command=self.say_hi)
-        self.hi_there.pack(side=LEFT)
+        self.frame.grid_forget()
+        #login.Login(master)
 
 
 root = Tk()
 
-app = App(root)
+app2 = App(root)
 
 root.mainloop()

@@ -5,31 +5,31 @@ from tkinter import *
 class NewToDo:
 
     def __init__(self):
-        app = Tk()
-        app.geometry('640x480')
+        app2 = Tk()
+        app2.geometry('640x480')
 
-        self.prio_v = StringVar(app)
+        self.prio_v = StringVar(app2)
         self.prio_v.set("niedrig")
-        self.date_dv = StringVar(app)
+        self.date_dv = StringVar(app2)
         self.date_dv.set("1")
-        self.date_mv = StringVar(app)
+        self.date_mv = StringVar(app2)
         self.date_mv.set("1")
-        self.date_yv = StringVar(app)
+        self.date_yv = StringVar(app2)
         self.date_yv.set("2020")
 
-        self.headline_e = Entry()
-        self.text_e = Entry()
-        self.date_d = OptionMenu(app, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13',
+        self.headline_e = Entry(app2)
+        self.text_e = Entry(app2)
+        self.date_d = OptionMenu(app2, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13',
                                  '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27',
                                  '28', '29', '30', '31')
-        self.date_m = OptionMenu(app, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
-        self.date_y = OptionMenu(app, self.date_yv, '2020', '2021', '2022')
-        self.prio_e = OptionMenu(app, self.prio_v, "niedrig", "mittel", "hoch")
-        self.headline = Label(text='Überschrift: ')
-        self.text = Label(text='Text: ')
-        self.date = Label(text='Datum: ')
-        self.prio = Label(text='Priorität: ')
-        self.button_add_user = Button(text='Anlegen', command=self.create_to_do)
+        self.date_m = OptionMenu(app2, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
+        self.date_y = OptionMenu(app2, self.date_yv, '2020', '2021', '2022')
+        self.prio_e = OptionMenu(app2, self.prio_v, "niedrig", "mittel", "hoch")
+        self.headline = Label(app2, text='Überschrift: ')
+        self.text = Label(app2, text='Text: ')
+        self.date = Label(app2, text='Datum: ')
+        self.prio = Label(app2, text='Priorität: ')
+        self.button_add_user = Button(app2, text='Anlegen', command=self.create_to_do)
 
         self.headline.grid(row=1, column=0)
         self.text.grid(row=2, column=0)
@@ -43,7 +43,7 @@ class NewToDo:
         self.prio_e.grid(row=4, column=1, sticky=W)
         self.button_add_user.grid(row=5, column=1)
 
-        app.mainloop()
+        app2.mainloop()
 
     def create_to_do(self):
         col_headline = self.headline_e.get()
@@ -75,6 +75,3 @@ class NewToDo:
             if prio == prio_v:
                 value_p = prio_list[prio]
         return value_p
-
-
-app = NewToDo()
