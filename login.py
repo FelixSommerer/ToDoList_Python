@@ -1,35 +1,31 @@
-import tkinter as tk
 from tkinter import *
 from tkinter import messagebox as mb
 import sqlite3
 import mainPage
-import register
 
 
-class Login(tk.Frame):
+class Login:
 
-    def __init__(self, master):
+    def __init__(self, root):
 
-        tk.Frame.__init__(self, master)
+        self.frame = Frame()
+        self.frame.grid()
 
-        self.label_anz = Label(text='ToDo Liste', font=('Calibri', 20))
-        self.username_e = Entry()
-        self.loginpassword_e = Entry()
-        self.username = Label(text='Benutzername: ')
-        self.loginpassword = Label(text='Passwort: ')
-        self.go_to_register = Label(text='Noch kein Profil? Hier kannst du dich registrieren.', fg='blue',
-                                    cursor='hand2')
-        self.button_add_user = Button(text='Anmelden', command=lambda: self.try_login(master))
+        self.label_anz = Label(self.frame, text='ToDo Liste', font=('Calibri', 20))
+        self.username_e = Entry(self.frame)
+        self.loginpassword_e = Entry(self.frame)
+        self.username = Label(self.frame, text='Benutzername: ')
+        self.loginpassword = Label(self.frame, text='Passwort: ')
+        self.button_add_user = Button(self.frame, text='Anmelden', command=lambda: self.try_login(root))
 
         self.label_anz.grid(row=0)
         self.username_e.grid(row=1, column=1)
         self.loginpassword_e.grid(row=2, column=1)
         self.username.grid(row=1, column=0, sticky=W)
         self.loginpassword.grid(row=2, column=0, sticky=W)
-        self.go_to_register.grid(row=3, column=0)
         self.button_add_user.grid(row=3, column=1)
 
-    def try_login(self, master):
+    def try_login(self, root):
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
         username = self.username_e.get()
@@ -44,8 +40,15 @@ class Login(tk.Frame):
                 print('Nutzer existiert')
                 if loginpassword == row[4]:
                     print('Login erfolgreich')
-                    master.switch_frame(mainPage.Main)
+                    user_id = row[0]
+                    self.create_frame_main(root, user_id)
                 else:
                     print('Falsches Passwort')
 
         conn.close()
+
+    def create_frame_main(self, root, user_id):
+        self.frame.grid_forget()
+        mainPage.Main(root, user_id)
+
+
