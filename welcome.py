@@ -37,7 +37,7 @@ class Welcome:
 
     def change_frame_main(self,root):
         self.frame.grid_forget()
-        mainPage.Main(root,1)
+        mainPage.Main(root,1,'headline desc')
 
 
 app = Welcome()

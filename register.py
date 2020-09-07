@@ -62,4 +62,4 @@ class Register:
 
     def create_frame_main(self, root):
         self.frame.grid_forget()
-        mainPage.Main(root, 0)
+        mainPage.Main(root, 0, 'headline')

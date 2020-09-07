@@ -49,6 +49,6 @@ class Login:
 
     def create_frame_main(self, root, user_id):
         self.frame.grid_forget()
-        mainPage.Main(root, user_id)
+        mainPage.Main(root, user_id, 'headline')
 
 
