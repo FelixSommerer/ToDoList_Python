@@ -37,18 +37,18 @@ class Login:
         rows = c.fetchall()
         for row in rows:
             if username == row[1]:
-                print('Nutzer existiert')
                 if loginpassword == row[4]:
-                    print('Login erfolgreich')
                     user_id = row[0]
                     self.create_frame_main(root, user_id)
                 else:
-                    print('Falsches Passwort')
+                    mb.showerror('Anmeldung fehlgeschlagen', 'Falsches Passwort.')
+            else:
+                i += 1
+                if i == len(rows):
+                    mb.showerror('Anmeldung fehlgeschlagen', 'Benutzer existiert nicht.')
 
         conn.close()
 
     def create_frame_main(self, root, user_id):
         self.frame.grid_forget()
-        mainPage.Main(root, user_id, 'headline')
-
-
+        mainPage.Main(root, user_id, 'headline', 0, 0)

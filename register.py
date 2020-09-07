@@ -1,4 +1,3 @@
-import tkinter as tk
 from tkinter import *
 from tkinter import messagebox as mb
 import sqlite3
@@ -21,7 +20,7 @@ class Register:
         self.name = Label(self.frame, text='Nachname: ')
         self.username = Label(self.frame, text='Benutzername: ')
         self.loginpassword = Label(self.frame, text='Passwort: ')
-        self.button_add_user = Button(self.frame, text='Registrieren', command= lambda: self.db_eintrag(root))
+        self.button_add_user = Button(self.frame, text='Registrieren', command=lambda: self.db_eintrag(root))
 
         self.label_anz.grid(row=0)
         self.prename_e.grid(row=1, column=1)
@@ -62,4 +61,4 @@ class Register:
 
     def create_frame_main(self, root):
         self.frame.grid_forget()
-        mainPage.Main(root, 0, 'headline')
+        mainPage.Main(root, 0, 'headline', 0, 0)
