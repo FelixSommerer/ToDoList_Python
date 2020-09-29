@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import Image, ImageTk
+#from PIL import Image, ImageTk
 import login
 import mainPage
 import register
@@ -17,12 +17,12 @@ class Welcome:
         self.frame.columnconfigure((0,1,2), weight=2)
        # self.frame.rowconfigure((0), weight=1)
 
-        logo = Image.open('toDo_Logo.png')
+        """logo = Image.open('toDo_Logo.png')
         logo = logo.resize((225, 225), Image.ANTIALIAS)
-        logoTk = ImageTk.PhotoImage(logo)
+        logoTk = ImageTk.PhotoImage(logo)"""
 
-        self.image_label = Label(self.frame, image=logoTk)
-        self.image_label.image = logoTk
+        """self.image_label = Label(self.frame, image=logoTk)
+        self.image_label.image = logoTk"""
         self.welcome_text = Label(self.frame, text='Willkommen bei der ToDo-Liste', font=('Calibri', 28))
         self.go_to_register = Button(self.frame, text='Registrieren', font=('Calibri', 15), command=lambda: self.change_frame_register(root))
         self.go_to_login = Button(self.frame, text='Login', font=('Calibri', 15), command=lambda: self.change_frame_login(root))
@@ -30,7 +30,7 @@ class Welcome:
 
         #self.image_label.grid_columnconfigure(0, weight=1)
         #self.image_label.grid_rowconfigure(0, weight=1)
-        self.image_label.grid(row=0, column=1, columnspan=2, pady=60)
+        #self.image_label.grid(row=0, column=1, columnspan=2, pady=60)
         #self.image_label.place( relx=0.5, rely=0.5, anchor='center')
         #self.welcome_text.grid_columnconfigure(0, weight=1)
         #self.welcome_text.grid_rowconfigure(1, )

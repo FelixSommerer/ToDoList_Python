@@ -7,7 +7,7 @@ class Main:
 
     def __init__(self, root, user_id, sort_by, active_1, active_2):
         print(sort_by)
-        self.frame = tk.Frame(root, bg='light grey')
+        self.frame = tk.Frame(root, bg='White')
         self.frame.grid(sticky=tk.NSEW)
 
         user_id = user_id
@@ -76,7 +76,7 @@ class Main:
 
         #Linke Seite
         frame_left = tk.Frame(self.frame, relief=tk.GROOVE)
-        frame_left.grid(row=0, column=0, sticky=tk.NW)
+        frame_left.grid(row=0, column=0, rowspan=2, sticky=tk.NW)
 
         canvas_left = tk.Canvas(frame_left, bg="Yellow", width=400, height=715)
         canvas_left.grid(row=0, column=0)
@@ -85,59 +85,68 @@ class Main:
         vscrollbar_left.grid(row=0, column=1, sticky=tk.NS)
         canvas_left.configure(yscrollcommand=vscrollbar_left.set)
 
-        buttons_frame = tk.Frame(canvas_left, bg="Red", bd=2)
+        buttons_frame = tk.Frame(canvas_left, bg="Red")
 
         #Rechte Seite
-        frame_right = tk.Frame(self.frame, relief=tk.GROOVE)
-        frame_right.grid(row=0, column=1, sticky=tk.NW)
+        frame_right = tk.Frame(self.frame, relief=tk.GROOVE, bg="Black")
+        frame_right.grid(row=0, column=1, columnspan=2, sticky=tk.NW)
 
-        canvas_right = tk.Canvas(frame_right, bg="Blue", width=830, height=695)
-        canvas_right.grid(row=0, column=0)
+        canvas_text = tk.Canvas(frame_right, width=880, height=650)
+        canvas_text.grid(row=0, column=0, columnspan=2)
 
-        vscrollbar_right = tk.Scrollbar(frame_right, orient=tk.VERTICAL, command=canvas_right.yview)
-        vscrollbar_right.grid(row=0, column=1, sticky=tk.NS)
-        canvas_right.configure(yscrollcommand=vscrollbar_right.set)
-
-        hscrollbar_right = tk.Scrollbar(frame_right, orient=tk.HORIZONTAL, command=canvas_right.xview)
-        hscrollbar_right.grid(row=1, column=0, sticky=tk.EW)
-        canvas_right.configure(xscrollcommand=hscrollbar_right.set)
-
-        details_frame = tk.Frame(canvas_right, bg="Black", bd=2)
+        text_frame = tk.Frame(canvas_text, bg="green")
+        text_frame.grid(row=0, column=0)
 
         i = 0
         for row in rows:
             i += 1
             button_info_text = '\n' + row[1] + '\n'
             button_info = tk.Button(buttons_frame, text=button_info_text, width=35,
-                                    command=lambda button_idx=row[0]: self.show_details(details_frame, button_idx, root,
+                                    command=lambda button_idx=row[0]: self.show_details(self.frame, text_frame, button_idx, root,
                                                                                         user_id, sort_by,
                                                                                         active_1, active_2))
             button_info.pack()
 
         conn.close()
 
+        """for i in range(50):
+            button = tk.Button(buttons_frame, text="Button Nr." + str(i))
+            button.pack()"""
+
+        canvas_left.create_window((0, 0), window=buttons_frame, anchor=tk.NW)
+        buttons_frame.update_idletasks()
+        bbox_left = canvas_left.bbox(tk.ALL)
+        w_left, h_left = bbox_left[2] - bbox_left[1], bbox_left[3] - bbox_left[1]
+        dw_left, dh_left = int((w_left / 1) * 1), int((h_left / len(rows)) * 13)
+        canvas_left.configure(scrollregion=bbox_left, width=dw_left, height=dh_left)
+
         '''tdbScroll = Scrollbar(self.frame, orient=VERTICAL)       Scrollbar
         tdbScroll.config(command=tdb_canvas.yview)
         tdb_canvas.config(yscrollcommand=tdbScroll.set)
         tdbScroll.grid(row=0, column=1, sticky="ns")'''
 
-    def show_details(self, frame2, button_idx, root, user_id, sort_by, active_1, active_2):
+    def show_details(self, master_frame, frame2, button_idx, root, user_id, sort_by, active_1, active_2):
         print(button_idx)
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
         c.execute('SELECT * FROM ToDoMain WHERE ID = ?', (button_idx,))
         data = c.fetchone()
-        headline = Label(frame2, text=data[1], anchor=SW, width=100)
-        headline.grid(row=0, column=1, padx=20, sticky=N)
-        text = Label(frame2,
-                     text=data[2], anchor=W, width=100)
-        text.grid(row=1, column=1, padx=20, sticky=N)
-        delete = Button(self.frame, text='Löschen', command=lambda: self.delete_to_do(button_idx, root, user_id,
+        headline = tk.Label(frame2, text=data[1], anchor=tk.SW, width=100)
+        headline.grid(row=0, column=1, padx=20, sticky=tk.NW)
+
+        text_box = tk.Text(frame2, height=45, width=140)
+        text_box.insert(tk.END, data[2])
+        text_box.grid(row=1, column=1, sticky=tk.NW)
+        text_box.configure(state="disabled")
+
+        """text = tk.Label(frame2, text=data[2], anchor=tk.W, width=100)
+        text.grid(row=1, column=1, padx=20, sticky=tk.N)"""
+        delete = tk.Button(master_frame, text='Löschen', font=("Calibri", 15), width=45, height=2, command=lambda: self.delete_to_do(button_idx, root, user_id,
                                                                                       sort_by, active_1, active_2))
-        delete.grid(row=0, column=2)
-        finish = Button(self.frame, text='Erledigt', command=lambda: self.finish_to_do(button_idx, root, user_id,
+        delete.grid(row=1, column=1, sticky=tk.SW)
+        finish = tk.Button(master_frame, text='Erledigt', font=("Calibri", 15), width=45, height=2, command=lambda: self.finish_to_do(button_idx, root, user_id,
                                                                                        sort_by, active_1, active_2))
-        finish.grid(row=0, column=3)
+        finish.grid(row=1, column=2, sticky=tk.SW)
         conn.close()
 
     def delete_to_do(self, button_idx, root, user_id, sort_by, active_1, active_2):
@@ -176,31 +185,31 @@ class Main:
 class NewToDo:
 
     def __init__(self, root, user_id, sort_by, active_1, active_2):
-        app2 = Tk()
+        app2 = tk.Tk()
         app2.geometry('640x480')
 
-        self.prio_v = StringVar(app2)
+        self.prio_v = tk.StringVar(app2)
         self.prio_v.set("niedrig")
-        self.date_dv = StringVar(app2)
+        self.date_dv = tk.StringVar(app2)
         self.date_dv.set("1")
-        self.date_mv = StringVar(app2)
+        self.date_mv = tk.StringVar(app2)
         self.date_mv.set("1")
-        self.date_yv = StringVar(app2)
+        self.date_yv = tk.StringVar(app2)
         self.date_yv.set("2020")
 
-        self.headline_e = Entry(app2)
-        self.text_e = Entry(app2)
-        self.date_d = OptionMenu(app2, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+        self.headline_e = tk.Entry(app2)
+        self.text_e = tk.Entry(app2)
+        self.date_d = tk.OptionMenu(app2, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
                                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26',
                                  '27', '28', '29', '30', '31')
-        self.date_m = OptionMenu(app2, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
-        self.date_y = OptionMenu(app2, self.date_yv, '2020', '2021', '2022')
-        self.prio_e = OptionMenu(app2, self.prio_v, "niedrig", "mittel", "hoch")
-        self.headline = Label(app2, text='Überschrift: ')
-        self.text = Label(app2, text='Text: ')
-        self.date = Label(app2, text='Datum: ')
-        self.prio = Label(app2, text='Priorität: ')
-        self.button_add_user = Button(app2, text='Anlegen', command=lambda: self.create_to_do(root, user_id, app2,
+        self.date_m = tk.OptionMenu(app2, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
+        self.date_y = tk.OptionMenu(app2, self.date_yv, '2020', '2021', '2022')
+        self.prio_e = tk.OptionMenu(app2, self.prio_v, "niedrig", "mittel", "hoch")
+        self.headline = tk.Label(app2, text='Überschrift: ')
+        self.text = tk.Label(app2, text='Text: ')
+        self.date = tk.Label(app2, text='Datum: ')
+        self.prio = tk.Label(app2, text='Priorität: ')
+        self.button_add_user = tk.Button(app2, text='Anlegen', command=lambda: self.create_to_do(root, user_id, app2,
                                                                                               sort_by, active_1,
                                                                                               active_2))
 
@@ -208,12 +217,12 @@ class NewToDo:
         self.text.grid(row=2, column=0)
         self.date.grid(row=3, column=0)
         self.prio.grid(row=4, column=0)
-        self.headline_e.grid(row=1, column=1, sticky=W)
+        self.headline_e.grid(row=1, column=1, sticky=tk.W)
         self.text_e.grid(row=2, column=1)
-        self.date_d.grid(row=3, column=1, sticky=W)
-        self.date_m.grid(row=3, column=2, sticky=W)
-        self.date_y.grid(row=3, column=3, sticky=W)
-        self.prio_e.grid(row=4, column=1, sticky=W)
+        self.date_d.grid(row=3, column=1, sticky=tk.W)
+        self.date_m.grid(row=3, column=2, sticky=tk.W)
+        self.date_y.grid(row=3, column=3, sticky=tk.W)
+        self.prio_e.grid(row=4, column=1, sticky=tk.W)
         self.button_add_user.grid(row=5, column=1)
 
         app2.protocol("WM_DELETE_WINDOW", lambda: self.on_closing(root, user_id, app2, sort_by, active_1, active_2))
