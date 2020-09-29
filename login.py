@@ -12,18 +12,18 @@ class Login:
         self.frame.grid()
 
         self.label_anz = Label(self.frame, text='ToDo Liste', font=('Calibri', 20))
-        self.username_e = Entry(self.frame)
-        self.loginpassword_e = Entry(self.frame)
-        self.username = Label(self.frame, text='Benutzername: ')
-        self.loginpassword = Label(self.frame, text='Passwort: ')
-        self.button_add_user = Button(self.frame, text='Anmelden', command=lambda: self.try_login(root))
+        self.username_e = Entry(self.frame, font=('Calibri', 12))
+        self.loginpassword_e = Entry(self.frame, font=('Calibri', 12))
+        self.username = Label(self.frame, text='Benutzername: ', font=('Calibri', 15))
+        self.loginpassword = Label(self.frame, text='Passwort: ',  font=('Calibri', 15))
+        self.button_add_user = Button(self.frame, text='Anmelden', font=('Calibri', 13), command=lambda: self.try_login(root))
 
         self.label_anz.grid(row=0)
-        self.username_e.grid(row=1, column=1)
-        self.loginpassword_e.grid(row=2, column=1)
+        self.username_e.grid(row=1, column=1, pady=15, ipadx=35, ipady=5)
+        self.loginpassword_e.grid(row=2, column=1, ipadx=35, ipady=5)
         self.username.grid(row=1, column=0, sticky=W)
         self.loginpassword.grid(row=2, column=0, sticky=W)
-        self.button_add_user.grid(row=3, column=1)
+        self.button_add_user.grid(row=3, column=1, pady=20)
 
     def try_login(self, root):
         conn = sqlite3.connect('ToDoList.db')
