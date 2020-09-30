@@ -11,7 +11,7 @@ class Register:
         self.frame = Frame()
         self.frame.grid()
 
-        self.label_anz = Label(self.frame, text='ToDo Liste', font=('Calibri', 20))
+        self.label_anz = Label(self.frame, text='ToDo Liste - Registrieren', font=('Calibri', 20))
         self.prename_e = Entry(self.frame, font=('Calibri', 12))
         self.name_e = Entry(self.frame, font=('Calibri', 12))
         self.username_e = Entry(self.frame, font=('Calibri', 12))

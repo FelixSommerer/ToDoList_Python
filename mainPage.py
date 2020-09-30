@@ -74,7 +74,7 @@ class Main:
         canvasFrame = Frame(tdb_canvas, bg="red")
         tdb_canvas.create_window(0, 0, window=canvasFrame, anchor='nw')'''
 
-        #Linke Seite
+        # Linke Seite
         frame_left = tk.Frame(self.frame, relief=tk.RAISED, bd=2)
         frame_left.grid(row=0, column=0, columnspan=2, sticky=tk.NW, pady=5)
 
@@ -87,8 +87,8 @@ class Main:
 
         buttons_frame = tk.Frame(canvas_left, bg="Red")
 
-        #Rechte Seite
-        frame_right = tk.Frame(self.frame, relief=tk.SUNKEN, bg="White", bd=2) #Test
+        # Rechte Seite
+        frame_right = tk.Frame(self.frame, relief=tk.SUNKEN, bg="White", bd=2)  # Test
         frame_right.grid(row=0, column=2, rowspan=2, sticky=tk.NW, pady=5, padx=10)
 
         canvas_text = tk.Canvas(frame_right, width=880, height=750)
@@ -102,7 +102,8 @@ class Main:
             i += 1
             button_info_text = '\n' + row[1] + '\n'
             button_info = tk.Button(buttons_frame, text=button_info_text, width=35,
-                                    command=lambda button_idx=row[0]: self.show_details(self.frame, text_frame, button_idx, root,
+                                    command=lambda button_idx=row[0]: self.show_details(self.frame, text_frame,
+                                                                                        button_idx, root,
                                                                                         user_id, sort_by,
                                                                                         active_1, active_2))
             button_info.pack()
@@ -131,8 +132,8 @@ class Main:
         c = conn.cursor()
         c.execute('SELECT * FROM ToDoMain WHERE ID = ?', (button_idx,))
         data = c.fetchone()
-        #headline = tk.Label(frame2, text=data[1], anchor=tk.SW, width=100)
-        #headline.grid(row=0, column=1, padx=20, sticky=tk.NW)
+        # headline = tk.Label(frame2, text=data[1], anchor=tk.SW, width=100)
+        # headline.grid(row=0, column=1, padx=20, sticky=tk.NW)
 
         headline_box = tk.Text(frame2, height=1, width=125)
         headline_box.insert(tk.END, data[1])
@@ -146,11 +147,13 @@ class Main:
 
         """text = tk.Label(frame2, text=data[2], anchor=tk.W, width=100)
         text.grid(row=1, column=1, padx=20, sticky=tk.N)"""
-        delete = tk.Button(master_frame, text='Löschen', font=("Calibri", 15), width=16, height=1, command=lambda: self.delete_to_do(button_idx, root, user_id,
-                                                                                      sort_by, active_1, active_2))
+        delete = tk.Button(master_frame, text='Löschen', font=("Calibri", 15), width=16, height=1,
+                           command=lambda: self.delete_to_do(button_idx, root, user_id,
+                                                             sort_by, active_1, active_2))
         delete.grid(row=1, column=0, sticky=tk.N)
-        finish = tk.Button(master_frame, text='Erledigt', font=("Calibri", 15), width=16, height=1, command=lambda: self.finish_to_do(button_idx, root, user_id,
-                                                                                       sort_by, active_1, active_2))
+        finish = tk.Button(master_frame, text='Erledigt', font=("Calibri", 15), width=16, height=1,
+                           command=lambda: self.finish_to_do(button_idx, root, user_id,
+                                                             sort_by, active_1, active_2))
         finish.grid(row=1, column=1, sticky=tk.N)
         conn.close()
 
@@ -203,10 +206,10 @@ class NewToDo:
         self.date_yv.set("2020")
 
         self.headline_e = tk.Entry(app2)
-        self.text_e = tk.Entry(app2)
+        self.text_e = tk.Text(app2, height=10, width=50, font=('Calibri'))
         self.date_d = tk.OptionMenu(app2, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
-                                 '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26',
-                                 '27', '28', '29', '30', '31')
+                                    '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26',
+                                    '27', '28', '29', '30', '31')
         self.date_m = tk.OptionMenu(app2, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
         self.date_y = tk.OptionMenu(app2, self.date_yv, '2020', '2021', '2022')
         self.prio_e = tk.OptionMenu(app2, self.prio_v, "niedrig", "mittel", "hoch")
@@ -215,8 +218,8 @@ class NewToDo:
         self.date = tk.Label(app2, text='Datum: ')
         self.prio = tk.Label(app2, text='Priorität: ')
         self.button_add_user = tk.Button(app2, text='Anlegen', command=lambda: self.create_to_do(root, user_id, app2,
-                                                                                              sort_by, active_1,
-                                                                                              active_2))
+                                                                                                 sort_by, active_1,
+                                                                                                 active_2))
 
         self.headline.grid(row=1, column=0)
         self.text.grid(row=2, column=0)
@@ -235,7 +238,7 @@ class NewToDo:
 
     def create_to_do(self, root, user_id, app2, sort_by, active_1, active_2):
         col_headline = self.headline_e.get()
-        col_text = self.text_e.get()
+        col_text = self.text_e.get("1.0",'end-1c')
         col_date_d = self.date_dv.get()
         col_date_m = self.date_mv.get()
         col_date_y = self.date_yv.get()
