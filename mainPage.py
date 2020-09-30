@@ -113,7 +113,7 @@ class Main:
     # Möglichkeit Eintrag zu löschen -> Aufruf Methode delete_to_do()
     # Möglichkeit Eintrag erledigt zu setzen -> Aufruf Methode finish_to_do()
     def show_details(self, master_frame, frame2, button_idx, root, user_id, sort_by, active_1, active_2):
-        print(button_idx)
+        #print(button_idx)
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
         c.execute('SELECT * FROM ToDoMain WHERE ID = ?', (button_idx,))
