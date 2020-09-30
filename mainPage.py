@@ -113,13 +113,14 @@ class Main:
         """for i in range(50):
             button = tk.Button(buttons_frame, text="Button Nr." + str(i))
             button.pack()"""
+        if len(rows) is not 0:
+            canvas_left.create_window((0, 0), window=buttons_frame, anchor=tk.NW)
+            buttons_frame.update_idletasks()
+            bbox_left = canvas_left.bbox(tk.ALL)
+            w_left, h_left = bbox_left[2] - bbox_left[1], bbox_left[3] - bbox_left[1]
 
-        canvas_left.create_window((0, 0), window=buttons_frame, anchor=tk.NW)
-        buttons_frame.update_idletasks()
-        bbox_left = canvas_left.bbox(tk.ALL)
-        w_left, h_left = bbox_left[2] - bbox_left[1], bbox_left[3] - bbox_left[1]
-        dw_left, dh_left = int((w_left / 1) * 1), int((h_left / len(rows)) * 13)
-        canvas_left.configure(scrollregion=bbox_left, width=dw_left, height=dh_left)
+            dw_left, dh_left = int((w_left / 1) * 1), int((h_left / len(rows)) * 13)
+            canvas_left.configure(scrollregion=bbox_left, width=dw_left, height=dh_left)
 
         '''tdbScroll = Scrollbar(self.frame, orient=VERTICAL)       Scrollbar
         tdbScroll.config(command=tdb_canvas.yview)
