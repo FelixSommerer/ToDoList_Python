@@ -7,6 +7,8 @@ from PIL import Image, ImageTk
 
 class Register:
 
+    # Aufbau der Register Seite mit Entrys für Registrierungsdaten
+    # Button Anmelden ruft Methode db_eintrag() auf
     def __init__(self, root):
 
         self.frame = Frame()
@@ -45,6 +47,10 @@ class Register:
         self.loginpassword_e.grid(row=5, column=1, sticky=W, padx=35, pady=5)
         self.button_add_user.grid(row=6, column=1, pady=20)
 
+    # Versuch neuen Benutzer anzulegen
+    # Vorname, Benutzername und Passwort als Pflichtfelder
+    # Falls Pflichtfelder nicht angegeben Fehler und Aufruf tkinter Messagebox
+    # Bei Erfolg Datenbankeintrag mit neuem User, Aufruf Methode create_frame_main()
     def db_eintrag(self, root):
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
@@ -71,6 +77,8 @@ class Register:
         conn.close()
         self.create_frame_main(root)
 
+    # Schließen des aktuellen Frames
+    # Aufruf Seite MainPage
     def create_frame_main(self, root):
         self.frame.grid_forget()
         mainPage.Main(root, 0, 'headline', 0, 0)

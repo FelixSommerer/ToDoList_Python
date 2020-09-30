@@ -9,6 +9,8 @@ import mainPage
 
 class Login:
 
+    # Aufbau der Login Seite mit Entrys für Username und Passwort
+    # Button Anmelden ruft onClick Methode try_login() auf
     def __init__(self, root):
 
         self.frame = Frame()
@@ -39,6 +41,9 @@ class Login:
         self.loginpassword_e.grid(row=3, column=1, padx=20, pady=5, sticky=W)
         self.button_add_user.grid(row=4, column=0, columnspan=2, pady=20, sticky=N)
 
+    # Username auf Existenz in Datenbank überprüfen
+    # Wenn existent, prüfen auf korrektes Passwort
+    # Falls Fehler in einer der beiden Überprüfungen, Aufruf tkinter Messagebox
     def try_login(self, root):
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
@@ -63,6 +68,8 @@ class Login:
 
         conn.close()
 
+    # Schließen des aktuellen Frames
+    # Aufruf der mainPage und Übergabe Parameter
     def create_frame_main(self, root, user_id):
         self.frame.grid_forget()
         mainPage.Main(root, user_id, 'headline', 0, 0)

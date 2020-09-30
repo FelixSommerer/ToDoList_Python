@@ -5,6 +5,10 @@ import sqlite3
 
 class Main:
 
+    # Aufbau der NewToDo Seite:
+    # Links ein Button für jede Aufgabe, Beschriftung mit jeweiliger Überschrift
+    # Nach Klick auf Button aufruf Methode showDetails()
+    # Menüband mit Optionen neuer Eintrag, Sortieren, Aktive / nicht aktive / alle anzeigen
     def __init__(self, root, user_id, sort_by, active_1, active_2):
         print(sort_by)
         self.frame = tk.Frame(root, bg='White')
@@ -53,26 +57,12 @@ class Main:
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
 
-        '''c.execute(
-            "SELECT prename FROM user WHERE ID = ?", (user_id,)
-        )
-        user = c.fetchone()
-
-        greeting = Label(text='Guten Tag, ' + user[0] + '!')
-        greeting.grid(row=0, column=1)'''
-
         c.execute(
             "SELECT ToDoMain.ID, ToDoMain.headline, ToDoMain.text, ToDoMain.insertDateTime, ToDoMain.date, "
             "ToDoMain.priority, ToDoMain.status FROM ToDoMain JOIN user ON user.ID = ToDoMain.createdBy WHERE user.ID "
             "= ? AND status IN (?, ?) ORDER BY %s" % sort_by,
             (user_id, active_1, active_2))
         rows = c.fetchall()
-
-        '''tdb_canvas = Canvas(self.frame, bg="red",width=255, height=710,)     Canvas
-        tdb_canvas.grid(row=0, column=0, sticky="nsew")
-
-        canvasFrame = Frame(tdb_canvas, bg="red")
-        tdb_canvas.create_window(0, 0, window=canvasFrame, anchor='nw')'''
 
         # Linke Seite
         frame_left = tk.Frame(self.frame, relief=tk.RAISED, bd=2)
@@ -110,9 +100,6 @@ class Main:
 
         conn.close()
 
-        """for i in range(50):
-            button = tk.Button(buttons_frame, text="Button Nr." + str(i))
-            button.pack()"""
         if len(rows) != 0:
             canvas_left.create_window((0, 0), window=buttons_frame, anchor=tk.NW)
             buttons_frame.update_idletasks()
@@ -122,11 +109,9 @@ class Main:
             dw_left, dh_left = int((w_left / 1) * 1), int((h_left / len(rows)) * 13)
             canvas_left.configure(scrollregion=bbox_left, width=dw_left, height=dh_left)
 
-        '''tdbScroll = Scrollbar(self.frame, orient=VERTICAL)       Scrollbar
-        tdbScroll.config(command=tdb_canvas.yview)
-        tdb_canvas.config(yscrollcommand=tdbScroll.set)
-        tdbScroll.grid(row=0, column=1, sticky="ns")'''
-
+    # Anzeige der Details rechts
+    # Möglichkeit Eintrag zu löschen -> Aufruf Methode delete_to_do()
+    # Möglichkeit Eintrag erledigt zu setzen -> Aufruf Methode finish_to_do()
     def show_details(self, master_frame, frame2, button_idx, root, user_id, sort_by, active_1, active_2):
         print(button_idx)
         conn = sqlite3.connect('ToDoList.db')
@@ -136,22 +121,22 @@ class Main:
         # headline = tk.Label(frame2, text=data[1], anchor=tk.SW, width=100)
         # headline.grid(row=0, column=1, padx=20, sticky=tk.NW)
 
-        headline_box = tk.Text(frame2, height=1, width=125)
+        headline_box = tk.Text(frame2, height=1, width=129)
         headline_box.insert(tk.END, data[1])
         headline_box.grid(row=0, column=0, sticky=tk.NW)
         headline_box.configure(state="disabled")
 
-        date_box = tk.Text(frame2, height=1, width=125)
+        date_box = tk.Text(frame2, height=1, width=129)
         date_box.insert(tk.END, 'Datum: ' + data[4])
         date_box.grid(row=1, column=0, sticky=tk.NW)
         date_box.configure(state="disabled")
 
-        prio_box = tk.Text(frame2, height=1, width=125)
+        prio_box = tk.Text(frame2, height=1, width=129)
         prio_box.insert(tk.END, 'Priorität: ' + str(data[5]))
         prio_box.grid(row=2, column=0, sticky=tk.NW)
         prio_box.configure(state="disabled")
 
-        text_box = tk.Text(frame2, height=50, width=125)
+        text_box = tk.Text(frame2, height=50, width=129)
         text_box.insert(tk.END, data[2])
         text_box.grid(row=3, column=0, sticky=tk.NW, pady=5)
         text_box.configure(state="disabled")
@@ -178,6 +163,8 @@ class Main:
         self.frame.grid_forget()
         Main(root, user_id, sort_by, active_1, active_2)
 
+    # Löscht Aufgabe aus Datenbank
+    # Erneuer Aufruf der MainPage, Übergabe Parameter
     def finish_to_do(self, button_idx, root, user_id, sort_by, active_1, active_2):
         conn = sqlite3.connect('ToDoList.db')
         c = conn.cursor()
@@ -188,20 +175,28 @@ class Main:
         self.frame.grid_forget()
         Main(root, user_id, sort_by, active_1, active_2)
 
+    # Setzt status auf 1 -> bedeutet Aufgabe erledigt
+    # Erneuer Aufruf der MainPage, Übergabe Parameter
+    # Aufgabe nicht mehr bei 'aktiv' angezeigt
     def create_new_to_do(self, root, user_id, sort_by, active_1, active_2):
         self.frame.grid_forget()
         NewToDo(root, user_id, sort_by, active_1, active_2)
 
+    # Aufruf NewToDo -> zusätzliches Fenster
     def sort_to_do(self, root, user_id, sort_by, active_1, active_2):
         self.frame.grid_forget()
         Main(root, user_id, sort_by, active_1, active_2)
 
+    # Aufruf Mainpage mit neuen Parametern für Datenbank
     def change_view(self, root, user_id, sort_by, active_1, active_2):
         self.frame.grid_forget()
         Main(root, user_id, sort_by, active_1, active_2)
 
 
 class NewToDo:
+
+    # Aufbau der NewToDo Seite mit Entrys und Dropdown Menüs für Daten des neuen ToDos
+    # Button Anlegen ruft Methode create_to_do auf, übergibt Parameter
     def __init__(self, root, user_id, sort_by, active_1, active_2):
         app2 = tk.Tk()
         app2.geometry('640x480')
@@ -258,6 +253,10 @@ class NewToDo:
         app2.protocol("WM_DELETE_WINDOW", lambda: self.on_closing(root, user_id, app2, sort_by, active_1, active_2))
         app2.mainloop()
 
+    # Versuch neue Aufgabe anzulegen
+    # Überschrift als Pflichtfeld
+    # Falls Pflichtfelder nicht angegeben Fehler und Aufruf tkinter Messagebox
+    # Bei Erfolg Datenbankeintrag mit neuer Aufgabe, Rückkehr zu MainPage, Übergabe Parameter
     def create_to_do(self, root, user_id, app2, sort_by, active_1, active_2):
         col_headline = self.headline_e.get()
         col_text = self.text_e.get("1.0",'end-1c')
@@ -283,10 +282,12 @@ class NewToDo:
             app2.destroy()
             Main(root, user_id, sort_by, active_1, active_2)
 
+    # Fügt Dropdown Werte year month day für Insert zu Variable date zusammen
     def merge_date(self, day, month, year):
         date = year + '-' + month + '-' + day
         return date
 
+    # Gibt für jedes Prio aus dicitionary Zahlenwert für Insert in Datenbank zurück
     def sort_prio(self, prio_v):
         value_p = 0
         prio_list = {'niedrig': 1, 'mittel': 2, 'hoch': 3}
@@ -295,6 +296,8 @@ class NewToDo:
                 value_p = prio_list[prio]
         return value_p
 
+    # Funktion bei Schließen des extra Fensters
+    # Rückkehr zu MainPage, Übergabe Parameter
     def on_closing(self, root, user_id, app2, sort_by, active_1, active_2):
         app2.destroy()
         Main(root, user_id, sort_by, active_1, active_2)
