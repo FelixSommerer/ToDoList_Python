@@ -18,7 +18,7 @@ class Login:
         self.loginpassword = Label(self.frame, text='Passwort: ',  font=('Calibri', 15))
         self.button_add_user = Button(self.frame, text='Anmelden', font=('Calibri', 13), command=lambda: self.try_login(root))
 
-        self.label_anz.grid(row=0)
+        self.label_anz.grid(row=0, column=0, columnspan=1, sticky=N)
         self.username_e.grid(row=1, column=1, pady=15, ipadx=35, ipady=5)
         self.loginpassword_e.grid(row=2, column=1, ipadx=35, ipady=5)
         self.username.grid(row=1, column=0, sticky=W)

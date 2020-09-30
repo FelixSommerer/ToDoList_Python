@@ -75,10 +75,10 @@ class Main:
         tdb_canvas.create_window(0, 0, window=canvasFrame, anchor='nw')'''
 
         #Linke Seite
-        frame_left = tk.Frame(self.frame, relief=tk.GROOVE)
-        frame_left.grid(row=0, column=0, rowspan=2, sticky=tk.NW)
+        frame_left = tk.Frame(self.frame, relief=tk.RAISED, bd=2)
+        frame_left.grid(row=0, column=0, columnspan=2, sticky=tk.NW, pady=5)
 
-        canvas_left = tk.Canvas(frame_left, bg="Yellow", width=400, height=715)
+        canvas_left = tk.Canvas(frame_left, bg="Light Grey", width=400, height=720)
         canvas_left.grid(row=0, column=0)
 
         vscrollbar_left = tk.Scrollbar(frame_left, orient=tk.VERTICAL, command=canvas_left.yview)
@@ -88,13 +88,13 @@ class Main:
         buttons_frame = tk.Frame(canvas_left, bg="Red")
 
         #Rechte Seite
-        frame_right = tk.Frame(self.frame, relief=tk.GROOVE, bg="Black")
-        frame_right.grid(row=0, column=1, columnspan=2, sticky=tk.NW)
+        frame_right = tk.Frame(self.frame, relief=tk.SUNKEN, bg="White", bd=2)
+        frame_right.grid(row=0, column=2, rowspan=2, sticky=tk.NW, pady=5, padx=10)
 
-        canvas_text = tk.Canvas(frame_right, width=880, height=650)
-        canvas_text.grid(row=0, column=0, columnspan=2)
+        canvas_text = tk.Canvas(frame_right, width=880, height=750)
+        canvas_text.grid(row=0, column=0)
 
-        text_frame = tk.Frame(canvas_text, bg="green")
+        text_frame = tk.Frame(canvas_text, bg="White")
         text_frame.grid(row=0, column=0)
 
         i = 0
@@ -131,22 +131,27 @@ class Main:
         c = conn.cursor()
         c.execute('SELECT * FROM ToDoMain WHERE ID = ?', (button_idx,))
         data = c.fetchone()
-        headline = tk.Label(frame2, text=data[1], anchor=tk.SW, width=100)
-        headline.grid(row=0, column=1, padx=20, sticky=tk.NW)
+        #headline = tk.Label(frame2, text=data[1], anchor=tk.SW, width=100)
+        #headline.grid(row=0, column=1, padx=20, sticky=tk.NW)
 
-        text_box = tk.Text(frame2, height=45, width=140)
+        headline_box = tk.Text(frame2, height=1, width=125)
+        headline_box.insert(tk.END, data[1])
+        headline_box.grid(row=0, column=0, sticky=tk.NW)
+        headline_box.configure(state="disabled")
+
+        text_box = tk.Text(frame2, height=53, width=127)
         text_box.insert(tk.END, data[2])
-        text_box.grid(row=1, column=1, sticky=tk.NW)
+        text_box.grid(row=1, column=0, sticky=tk.NW, pady=5)
         text_box.configure(state="disabled")
 
         """text = tk.Label(frame2, text=data[2], anchor=tk.W, width=100)
         text.grid(row=1, column=1, padx=20, sticky=tk.N)"""
-        delete = tk.Button(master_frame, text='Löschen', font=("Calibri", 15), width=45, height=2, command=lambda: self.delete_to_do(button_idx, root, user_id,
+        delete = tk.Button(master_frame, text='Löschen', font=("Calibri", 15), width=16, height=1, command=lambda: self.delete_to_do(button_idx, root, user_id,
                                                                                       sort_by, active_1, active_2))
-        delete.grid(row=1, column=1, sticky=tk.SW)
-        finish = tk.Button(master_frame, text='Erledigt', font=("Calibri", 15), width=45, height=2, command=lambda: self.finish_to_do(button_idx, root, user_id,
+        delete.grid(row=1, column=0, sticky=tk.N)
+        finish = tk.Button(master_frame, text='Erledigt', font=("Calibri", 15), width=16, height=1, command=lambda: self.finish_to_do(button_idx, root, user_id,
                                                                                        sort_by, active_1, active_2))
-        finish.grid(row=1, column=2, sticky=tk.SW)
+        finish.grid(row=1, column=1, sticky=tk.N)
         conn.close()
 
     def delete_to_do(self, button_idx, root, user_id, sort_by, active_1, active_2):

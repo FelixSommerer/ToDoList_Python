@@ -11,7 +11,7 @@ class App:
 
     def __init__(self):
         root = Tk()
-        root.geometry('1280x720')
+        root.geometry('1280x800')
         root.wm_iconbitmap('toDo_Logo.ico')
         root.winfo_toplevel().title("To-do-Liste")
         self.frame = Frame()
