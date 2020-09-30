@@ -113,7 +113,7 @@ class Main:
         """for i in range(50):
             button = tk.Button(buttons_frame, text="Button Nr." + str(i))
             button.pack()"""
-        if len(rows) is not 0:
+        if len(rows) != 0:
             canvas_left.create_window((0, 0), window=buttons_frame, anchor=tk.NW)
             buttons_frame.update_idletasks()
             bbox_left = canvas_left.bbox(tk.ALL)
@@ -141,9 +141,19 @@ class Main:
         headline_box.grid(row=0, column=0, sticky=tk.NW)
         headline_box.configure(state="disabled")
 
-        text_box = tk.Text(frame2, height=53, width=127)
+        date_box = tk.Text(frame2, height=1, width=125)
+        date_box.insert(tk.END, 'Datum: ' + data[4])
+        date_box.grid(row=1, column=0, sticky=tk.NW)
+        date_box.configure(state="disabled")
+
+        prio_box = tk.Text(frame2, height=1, width=125)
+        prio_box.insert(tk.END, 'Priorität: ' + str(data[5]))
+        prio_box.grid(row=2, column=0, sticky=tk.NW)
+        prio_box.configure(state="disabled")
+
+        text_box = tk.Text(frame2, height=50, width=125)
         text_box.insert(tk.END, data[2])
-        text_box.grid(row=1, column=0, sticky=tk.NW, pady=5)
+        text_box.grid(row=3, column=0, sticky=tk.NW, pady=5)
         text_box.configure(state="disabled")
 
         """text = tk.Label(frame2, text=data[2], anchor=tk.W, width=100)
@@ -192,47 +202,58 @@ class Main:
 
 
 class NewToDo:
-
     def __init__(self, root, user_id, sort_by, active_1, active_2):
         app2 = tk.Tk()
         app2.geometry('640x480')
 
-        self.prio_v = tk.StringVar(app2)
+        self.frame = tk.Frame(app2)
+        self.frame.grid()
+
+        frame_center = tk.Frame(self.frame, bd=2, relief=tk.GROOVE, width=600)
+        frame_center.grid(column=0, row=0, pady=20, padx=20)
+
+        frame_date = tk.Frame(frame_center)
+        frame_date.grid(column=1, row=2, pady=10, sticky=tk.W)
+
+        frame_prio = tk.Frame(frame_center)
+        frame_prio.grid(column=1, row=3, pady=10, sticky=tk.W)
+
+        self.prio_v = tk.StringVar(frame_center)
         self.prio_v.set("niedrig")
-        self.date_dv = tk.StringVar(app2)
+        self.date_dv = tk.StringVar(frame_center)
         self.date_dv.set("1")
-        self.date_mv = tk.StringVar(app2)
+        self.date_mv = tk.StringVar(frame_center)
         self.date_mv.set("1")
-        self.date_yv = tk.StringVar(app2)
+        self.date_yv = tk.StringVar(frame_center)
         self.date_yv.set("2020")
 
-        self.headline_e = tk.Entry(app2)
-        self.text_e = tk.Text(app2, height=10, width=50, font=('Calibri'))
-        self.date_d = tk.OptionMenu(app2, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+        self.headline_e = tk.Entry(frame_center)
+        self.text_e = tk.Text(frame_center, height=17, width=56, font=('Calibri'))
+        self.date_d = tk.OptionMenu(frame_date, self.date_dv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
                                     '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26',
                                     '27', '28', '29', '30', '31')
-        self.date_m = tk.OptionMenu(app2, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
-        self.date_y = tk.OptionMenu(app2, self.date_yv, '2020', '2021', '2022')
-        self.prio_e = tk.OptionMenu(app2, self.prio_v, "niedrig", "mittel", "hoch")
-        self.headline = tk.Label(app2, text='Überschrift: ')
-        self.text = tk.Label(app2, text='Text: ')
-        self.date = tk.Label(app2, text='Datum: ')
-        self.prio = tk.Label(app2, text='Priorität: ')
-        self.button_add_user = tk.Button(app2, text='Anlegen', command=lambda: self.create_to_do(root, user_id, app2,
+        self.date_m = tk.OptionMenu(frame_date, self.date_mv, '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12')
+        self.date_y = tk.OptionMenu(frame_date, self.date_yv, '2020', '2021', '2022')
+        self.prio_e = tk.OptionMenu(frame_prio, self.prio_v, "niedrig", "mittel", "hoch")
+        self.headline = tk.Label(frame_center, text='Überschrift: ')
+        self.text = tk.Label(frame_center, text='Text: ')
+        self.date = tk.Label(frame_center, text='Datum: ')
+        self.prio = tk.Label(frame_center, text='Priorität: ')
+        self.button_add_user = tk.Button(frame_center, width=65, text='Anlegen', command=lambda: self.create_to_do(root, user_id, app2,
                                                                                                  sort_by, active_1,
                                                                                                  active_2))
 
-        self.headline.grid(row=1, column=0)
-        self.text.grid(row=2, column=0)
-        self.date.grid(row=3, column=0)
-        self.prio.grid(row=4, column=0)
-        self.headline_e.grid(row=1, column=1, sticky=tk.W)
-        self.text_e.grid(row=2, column=1)
-        self.date_d.grid(row=3, column=1, sticky=tk.W)
-        self.date_m.grid(row=3, column=2, sticky=tk.W)
-        self.date_y.grid(row=3, column=3, sticky=tk.W)
-        self.prio_e.grid(row=4, column=1, sticky=tk.W)
-        self.button_add_user.grid(row=5, column=1)
+        self.headline.grid(row=0, column=0, sticky=tk.W)
+        self.headline_e.grid(row=0, column=1, sticky=tk.W)
+        self.text.grid(row=1, column=0, sticky=tk.W)
+        self.text_e.grid(row=1, column=1, sticky=tk.W, pady=10)
+        self.date.grid(row=2, column=0, sticky=tk.W)
+        self.date_d.grid(row=0, column=0, sticky=tk.W)
+        self.date_m.grid(row=0, column=1, sticky=tk.W)
+        self.date_y.grid(row=0, column=2, sticky=tk.W)
+        self.prio.grid(row=3, column=0, sticky=tk.W)
+        self.prio_e.grid(row=0, column=0, sticky=tk.W)
+        self.button_add_user.grid(row=4, column=0, columnspan=2, sticky=tk.S)
 
         app2.protocol("WM_DELETE_WINDOW", lambda: self.on_closing(root, user_id, app2, sort_by, active_1, active_2))
         app2.mainloop()
