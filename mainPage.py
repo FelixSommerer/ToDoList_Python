@@ -88,7 +88,7 @@ class Main:
         buttons_frame = tk.Frame(canvas_left, bg="Red")
 
         #Rechte Seite
-        frame_right = tk.Frame(self.frame, relief=tk.SUNKEN, bg="White", bd=2)
+        frame_right = tk.Frame(self.frame, relief=tk.SUNKEN, bg="White", bd=2) #Test
         frame_right.grid(row=0, column=2, rowspan=2, sticky=tk.NW, pady=5, padx=10)
 
         canvas_text = tk.Canvas(frame_right, width=880, height=750)
