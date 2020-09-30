@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import messagebox as mb
 import sqlite3
+
+from PIL import Image, ImageTk
+
 import mainPage
 
 
@@ -11,19 +14,30 @@ class Login:
         self.frame = Frame()
         self.frame.grid()
 
-        self.label_anz = Label(self.frame, text='ToDo Liste', font=('Calibri', 20))
-        self.username_e = Entry(self.frame, font=('Calibri', 12))
-        self.loginpassword_e = Entry(self.frame, font=('Calibri', 12))
-        self.username = Label(self.frame, text='Benutzername: ', font=('Calibri', 15))
-        self.loginpassword = Label(self.frame, text='Passwort: ',  font=('Calibri', 15))
-        self.button_add_user = Button(self.frame, text='Anmelden', font=('Calibri', 13), command=lambda: self.try_login(root))
+        frame_center = Frame(self.frame, bd=2, relief=GROOVE)
+        frame_center.grid(column=0, row=0, padx=500, pady=100)
 
-        self.label_anz.grid(row=0, column=0, columnspan=1, sticky=N)
-        self.username_e.grid(row=1, column=1, pady=15, ipadx=35, ipady=5)
-        self.loginpassword_e.grid(row=2, column=1, ipadx=35, ipady=5)
-        self.username.grid(row=1, column=0, sticky=W)
-        self.loginpassword.grid(row=2, column=0, sticky=W)
-        self.button_add_user.grid(row=3, column=1, pady=20)
+        logo = Image.open('toDo_Logo.png')
+        logo = logo.resize((225, 225), Image.ANTIALIAS)
+        logoTk = ImageTk.PhotoImage(logo)
+
+        self.image_label = Label(frame_center, image=logoTk)
+        self.image_label.image = logoTk
+
+        self.image_label.grid(column=0, row=0, columnspan=2)
+        self.label_anz = Label(frame_center, text='ToDo Liste', font=('Calibri', 20))
+        self.username_e = Entry(frame_center, font=('Calibri', 12))
+        self.loginpassword_e = Entry(frame_center, font=('Calibri', 12), width=20)
+        self.username = Label(frame_center, text='Benutzername: ', font=('Calibri', 15))
+        self.loginpassword = Label(frame_center, text='Passwort: ',  font=('Calibri', 15))
+        self.button_add_user = Button(frame_center, text='Anmelden', font=('Calibri', 13), command=lambda: self.try_login(root))
+
+        self.label_anz.grid(row=1, column=0, columnspan=2, sticky=N)
+        self.username.grid(row=2, column=0, sticky=W)
+        self.username_e.grid(row=2, column=1, pady=5, padx=20, sticky=W)
+        self.loginpassword.grid(row=3, column=0, sticky=W)
+        self.loginpassword_e.grid(row=3, column=1, padx=20, pady=5, sticky=W)
+        self.button_add_user.grid(row=4, column=0, columnspan=2, pady=20, sticky=N)
 
     def try_login(self, root):
         conn = sqlite3.connect('ToDoList.db')
