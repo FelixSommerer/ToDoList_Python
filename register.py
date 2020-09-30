@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox as mb
 import sqlite3
 import mainPage
+from PIL import Image, ImageTk
 
 
 class Register:
@@ -11,27 +12,38 @@ class Register:
         self.frame = Frame()
         self.frame.grid()
 
-        self.label_anz = Label(self.frame, text='ToDo Liste - Registrieren', font=('Calibri', 20))
-        self.prename_e = Entry(self.frame, font=('Calibri', 12))
-        self.name_e = Entry(self.frame, font=('Calibri', 12))
-        self.username_e = Entry(self.frame, font=('Calibri', 12))
-        self.loginpassword_e = Entry(self.frame, font=('Calibri', 12))
-        self.prename = Label(self.frame, text='Vorname: ',  font=('Calibri', 15))
-        self.name = Label(self.frame, text='Nachname: ',  font=('Calibri', 15))
-        self.username = Label(self.frame, text='Benutzername: ',  font=('Calibri', 15))
-        self.loginpassword = Label(self.frame, text='Passwort: ',  font=('Calibri', 15))
-        self.button_add_user = Button(self.frame, text='Registrieren', font=('Calibri', 13), border=1, command=lambda: self.db_eintrag(root))
+        frame_center = Frame(self.frame, relief=GROOVE)
+        frame_center.grid(column=0, row=0, padx=500, pady=50)
 
-        self.label_anz.grid(row=0)
-        self.prename_e.grid(row=1, column=1, sticky=E, pady=15, ipadx=35, ipady=5)
-        self.name_e.grid(row=2, column=1, sticky=E, ipadx=35, ipady=5)
-        self.username_e.grid(row=3, column=1, sticky=E, pady=15, ipadx=35, ipady=5)
-        self.loginpassword_e.grid(row=4, column=1, sticky=E, ipadx=35, ipady=5)
-        self.prename.grid(row=1, column=0, sticky=W)
-        self.name.grid(row=2, column=0, sticky=W)
-        self.username.grid(row=3, column=0, sticky=W)
-        self.loginpassword.grid(row=4, column=0, sticky=W)
-        self.button_add_user.grid(row=5, column=1, pady=20)
+        logo = Image.open('toDo_Logo.png')
+        logo = logo.resize((225, 225), Image.ANTIALIAS)
+        logoTk = ImageTk.PhotoImage(logo)
+
+        self.image_label = Label(frame_center, image=logoTk)
+        self.image_label.image = logoTk
+
+        self.image_label.grid(column=0, row=0, columnspan=2)
+        self.label_anz = Label(frame_center, text='ToDo Liste - Registrieren', font=('Calibri', 20))
+        self.prename_e = Entry(frame_center, font=('Calibri', 12))
+        self.name_e = Entry(frame_center, font=('Calibri', 12))
+        self.username_e = Entry(frame_center, font=('Calibri', 12))
+        self.loginpassword_e = Entry(frame_center, font=('Calibri', 12))
+        self.prename = Label(frame_center, text='Vorname: ',  font=('Calibri', 15))
+        self.name = Label(frame_center, text='Nachname: ',  font=('Calibri', 15))
+        self.username = Label(frame_center, text='Benutzername: ',  font=('Calibri', 15))
+        self.loginpassword = Label(frame_center, text='Passwort: ',  font=('Calibri', 15))
+        self.button_add_user = Button(frame_center, text='Registrieren', font=('Calibri', 13), border=1, command=lambda: self.db_eintrag(root))
+
+        self.label_anz.grid(row=1, column=0, columnspan=2, sticky=N, pady=20)
+        self.prename.grid(row=2, column=0, sticky=W)
+        self.prename_e.grid(row=2, column=1, sticky=W, pady=15, padx=35)
+        self.name.grid(row=3, column=0, sticky=W)
+        self.name_e.grid(row=3, column=1, sticky=W, padx=35, pady=5)
+        self.username.grid(row=4, column=0, sticky=W)
+        self.username_e.grid(row=4, column=1, sticky=W, pady=15, padx=35)
+        self.loginpassword.grid(row=5, column=0, sticky=W)
+        self.loginpassword_e.grid(row=5, column=1, sticky=W, padx=35, pady=5)
+        self.button_add_user.grid(row=6, column=1, pady=20)
 
     def db_eintrag(self, root):
         conn = sqlite3.connect('ToDoList.db')

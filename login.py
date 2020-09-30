@@ -14,8 +14,8 @@ class Login:
         self.frame = Frame()
         self.frame.grid()
 
-        frame_center = Frame(self.frame, bd=2, relief=GROOVE)
-        frame_center.grid(column=0, row=0, padx=500, pady=100)
+        frame_center = Frame(self.frame, relief=GROOVE)
+        frame_center.grid(column=0, row=0, padx=500, pady=50)
 
         logo = Image.open('toDo_Logo.png')
         logo = logo.resize((225, 225), Image.ANTIALIAS)
@@ -32,7 +32,7 @@ class Login:
         self.loginpassword = Label(frame_center, text='Passwort: ',  font=('Calibri', 15))
         self.button_add_user = Button(frame_center, text='Anmelden', font=('Calibri', 13), command=lambda: self.try_login(root))
 
-        self.label_anz.grid(row=1, column=0, columnspan=2, sticky=N)
+        self.label_anz.grid(row=1, column=0, columnspan=2, sticky=N, pady=20)
         self.username.grid(row=2, column=0, sticky=W)
         self.username_e.grid(row=2, column=1, pady=5, padx=20, sticky=W)
         self.loginpassword.grid(row=3, column=0, sticky=W)
